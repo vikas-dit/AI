@@ -1,73 +1,36 @@
+# Simple Reflex Agent for Vacuum Cleaner
 
-# Simple Reflex Agent - Vacuum Cleaner World
+def reflex_vacuum_agent(location, status):
+    if status == "Dirty":
+        return "Suck"
+    elif location == "A":
+        return "Move Right"
+    elif location == "B":
+        return "Move Left"
 
-# Class for Vacuum Cleaner Agent
-class VacuumCleaner
+# Environment states
+environment = {
+    "A": "Dirty",
+    "B": "Clean"
+}
 
-    # Constructor
-    def __init__(self, location, environment)
-        self.location = location
-        self.environment = environment
+# Initial location
+location = "A"
 
-    # Function to decide the action
-    def perceive_and_act(self)
+while True:
+    status = environment[location]
+    action = reflex_vacuum_agent(location, status)
 
-        status = self.environment[self.location]
+    print(f"Location: {location}, Status: {status}, Action: {action}")
 
-        if status == Dirty
-            return SUCK
+    if action == "Suck":
+        environment[location] = "Clean"
+    elif action == "Move Right":
+        location = "B"
+    elif action == "Move Left":
+        location = "A"
 
-        elif self.location == A
-            return RIGHT
-
-        else
-            return LEFT
-
-    # Function to perform the action
-    def perform_action(self, action)
-
-        if action == SUCK
-            self.environment[self.location] = Clean
-
-        elif action == RIGHT
-            self.location = B
-
-        elif action == LEFT
-            self.location = A
-
-    # Function to display environment
-    def display(self, step, action)
-
-        print(nStep, step)
-        print(Location, self.location)
-        print(Action, action)
-        print(Environment, self.environment)
-
-
-# Main function
-def main()
-
-    # Initial environment
-    environment = {
-        A Dirty,
-        B Dirty
-    }
-
-    # Create agent object
-    agent = VacuumCleaner(A, environment)
-
-    # Run agent for 4 steps
-    for step in range(1, 5)
-
-        action = agent.perceive_and_act()
-
-        agent.perform_action(action)
-
-        agent.display(step, action)
-
-    print(nFinal Environment, environment)
-
-
-# Program execution
-if __name__ == __main__
-    main()
+    # Stop when both rooms are clean
+    if environment["A"] == "Clean" and environment["B"] == "Clean":
+        print("Both rooms are clean. Task Completed!")
+        break
