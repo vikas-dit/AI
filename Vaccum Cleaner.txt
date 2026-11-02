@@ -1,0 +1,73 @@
+
+# Simple Reflex Agent - Vacuum Cleaner World
+
+# Class for Vacuum Cleaner Agent
+class VacuumCleaner
+
+    # Constructor
+    def __init__(self, location, environment)
+        self.location = location
+        self.environment = environment
+
+    # Function to decide the action
+    def perceive_and_act(self)
+
+        status = self.environment[self.location]
+
+        if status == Dirty
+            return SUCK
+
+        elif self.location == A
+            return RIGHT
+
+        else
+            return LEFT
+
+    # Function to perform the action
+    def perform_action(self, action)
+
+        if action == SUCK
+            self.environment[self.location] = Clean
+
+        elif action == RIGHT
+            self.location = B
+
+        elif action == LEFT
+            self.location = A
+
+    # Function to display environment
+    def display(self, step, action)
+
+        print(nStep, step)
+        print(Location, self.location)
+        print(Action, action)
+        print(Environment, self.environment)
+
+
+# Main function
+def main()
+
+    # Initial environment
+    environment = {
+        A Dirty,
+        B Dirty
+    }
+
+    # Create agent object
+    agent = VacuumCleaner(A, environment)
+
+    # Run agent for 4 steps
+    for step in range(1, 5)
+
+        action = agent.perceive_and_act()
+
+        agent.perform_action(action)
+
+        agent.display(step, action)
+
+    print(nFinal Environment, environment)
+
+
+# Program execution
+if __name__ == __main__
+    main()

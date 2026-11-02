@@ -1,0 +1,95 @@
+import heapq
+
+# Goal state
+goal = (1, 2, 3,
+        4, 5, 6,
+        7, 8, 0)
+
+# Heuristic function: Manhattan Distance
+def heuristic(state):
+    distance = 0
+
+    for i in range(9):
+        if state[i] != 0:
+            goal_pos = state[i] - 1
+            x1, y1 = i // 3, i % 3
+            x2, y2 = goal_pos // 3, goal_pos % 3
+
+            distance += abs(x1 - x2) + abs(y1 - y2)
+
+    return distance
+
+
+# A* Algorithm
+def astar(start):
+
+    pq = []
+    heapq.heappush(pq, (heuristic(start), start, []))
+
+    visited = set()
+
+    while pq:
+
+        f, state, path = heapq.heappop(pq)
+
+        if state == goal:
+            return path + [state]
+
+        if state in visited:
+            continue
+
+        visited.add(state)
+
+        zero = state.index(0)
+        moves = [-3, 3, -1, 1]
+
+        for move in moves:
+            new_pos = zero + move
+
+            if 0 <= new_pos < 9:
+
+                if move == -1 and zero % 3 == 0:
+                    continue
+
+                if move == 1 and zero % 3 == 2:
+                    continue
+
+                new_state = list(state)
+                new_state[zero], new_state[new_pos] = (
+                    new_state[new_pos], new_state[zero]
+                )
+
+                new_state = tuple(new_state)
+
+                if new_state not in visited:
+                    new_path = path + [state]
+
+                    g = len(new_path)
+                    h = heuristic(new_state)
+                    f = g + h
+
+                    heapq.heappush(
+                        pq, (f, new_state, new_path)
+                    )
+
+    return None
+
+
+# Initial state
+start = (1, 2, 3,
+         4, 0, 6,
+         7, 5, 8)
+
+# Execute algorithm
+solution = astar(start)
+
+# Display solution
+if solution:
+    print("Solution Found!")
+    for step in solution:
+        for i in range(0, 9, 3):
+            print(step[i:i+3])
+        print()
+    print("Total Moves:", len(solution) - 1)
+else:
+    print("No solution found!")

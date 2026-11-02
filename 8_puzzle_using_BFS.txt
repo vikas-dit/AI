@@ -1,0 +1,72 @@
+from collections import deque
+
+# Initial and goal state
+start = (1, 2, 3,
+         4, 0, 6,
+         7, 5, 8)
+
+goal = (1, 2, 3,
+        4, 5, 6,
+        7, 8, 0)
+
+# BFS function
+def bfs(start):
+
+    queue = deque([[start]])
+    visited = {start}
+
+    while queue:
+
+        path = queue.popleft()
+        state = path[-1]
+
+        # Check goal
+        if state == goal:
+            return path
+
+        zero = state.index(0)
+
+        # Possible movements
+        moves = [-3, 3, -1, 1]
+
+        for move in moves:
+            new_pos = zero + move
+
+            if 0 <= new_pos < 9:
+
+                if move == -1 and zero % 3 == 0:
+                    continue
+
+                if move == 1 and zero % 3 == 2:
+                    continue
+
+                new_state = list(state)
+                new_state[zero], new_state[new_pos] = (
+                    new_state[new_pos], new_state[zero]
+                )
+
+                new_state = tuple(new_state)
+
+                if new_state not in visited:
+                    visited.add(new_state)
+                    queue.append(path + [new_state])
+
+    return None
+
+
+# Execute BFS
+solution = bfs(start)
+
+# Display result
+if solution:
+    print("Solution Found!")
+
+    for step in solution:
+        for i in range(0, 9, 3):
+            print(step[i:i+3])
+        print()
+
+    print("Total Moves:", len(solution) - 1)
+
+else:
+    print("No Solution Found!")s
