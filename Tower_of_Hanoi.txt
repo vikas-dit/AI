@@ -1,24 +1,9 @@
-# Tower of Hanoi using State Space Search
-
-def tower_of_hanoi(n, source, auxiliary, destination):
-
-    # Base condition
-    if n == 1:
-        print("Move disk 1 from", source, "to", destination)
-        return
-
-    # Move n-1 disks to auxiliary rod
-    tower_of_hanoi(n-1, source, destination, auxiliary)
-
-    # Move largest disk to destination
-    print("Move disk", n, "from", source, "to", destination)
-
-    # Move n-1 disks to destination rod
-    tower_of_hanoi(n-1, auxiliary, source, destination)
+def tower(n, fromrod, torod, auxrod):
+    if n > 0:
+        tower(n-1, fromrod, auxrod, torod)
+        print("Move disk", n, "from rod", fromrod, "to rod", torod)
+        tower(n-1, auxrod, torod, fromrod)
 
 
-# Main program
 n = 3
-
-print("Tower of Hanoi Solution:")
-tower_of_hanoi(n, 'A', 'B', 'C')
+tower(n, 'A', 'C', 'B')
