@@ -7,38 +7,28 @@ target = 2
 visited = set()
 
 def dfs(a, b):
-
-    # Check goal
     if a == target or b == target:
         print(a, b)
         return True
 
-    # Check visited state
     if (a, b) in visited:
         return False
 
     visited.add((a, b))
     print(a, b)
 
-    # Possible operations
     operations = [
-        (jug1, b),                  # Fill Jug 1
-        (a, jug2),                  # Fill Jug 2
-        (0, b),                     # Empty Jug 1
-        (a, 0),                     # Empty Jug 2
-        (a - min(a, jug2-b), b + min(a, jug2-b)),  # Pour Jug 1 to Jug 2
-        (a + min(b, jug1-a), b - min(b, jug1-a))   # Pour Jug 2 to Jug 1
+        (jug1, b), (a, jug2),  # Fill
+        (0, b), (a, 0),        # Empty
+        (a-min(a, jug2-b), b+min(a, jug2-b)), # Pour 1 to 2
+        (a+min(b, jug1-a), b-min(b, jug1-a))  # Pour 2 to 1
     ]
 
     for x, y in operations:
-        if (x, y) not in visited:
-            if dfs(x, y):
-                print(x, y)
-                return True
+        if dfs(x, y):
+            return True
 
     return False
 
-
-# Start DFS
 if not dfs(0, 0):
     print("Solution not found")
